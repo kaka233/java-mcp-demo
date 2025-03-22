@@ -1,5 +1,3 @@
-package me.fan.demo2.Listener;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,7 +13,10 @@ import jakarta.servlet.ServletContextListener;
 import jakarta.servlet.ServletRegistration;
 import jakarta.servlet.annotation.WebListener;
 
-
+/**
+ *  this servlet is HttpServletSseServerTransportProvider.java in java sdk, this listener create a demo sse server include a calculator tool.
+ *  it can work in cursor(gpt-4o-mini can`t call mcp ? try other) and cherry studio (need function call model)
+ */
 @WebListener
 public class McpServerListener implements ServletContextListener {
     @Override
