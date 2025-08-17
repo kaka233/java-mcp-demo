@@ -21,9 +21,7 @@ import jakarta.servlet.annotation.WebListener;
 public class McpServerListener implements ServletContextListener {
     @Override
     public void contextInitialized(ServletContextEvent sce) {
-        HttpServletSseServerTransportProvider provider = new HttpServletSseServerTransportProvider(
-                new ObjectMapper(), "/messages"
-        );
+        HttpServletStreamableServerTransportProvider provider = getStreamableProvider(sce);
         ServerCapabilities capabilities = ServerCapabilities.builder()
                                                             .logging()
                                                             .prompts(false)
@@ -32,7 +30,7 @@ public class McpServerListener implements ServletContextListener {
                                                             .build();
         SyncToolSpecification calculatorTool = getSyncToolSpecification();
         McpServer.sync(provider)
-                 .serverInfo("sse", "1.0.0")
+                 .serverInfo("calculator", "1.0.0")
                  .capabilities(capabilities)
                  .tools(calculatorTool)
                  .build();
@@ -41,6 +39,21 @@ public class McpServerListener implements ServletContextListener {
         ServletRegistration.Dynamic servlet = context.addServlet("mcp", provider);
         servlet.addMapping("/*");
         servlet.setAsyncSupported(true);
+    }
+    
+    // Streamable
+    private HttpServletStreamableServerTransportProvider getStreamableProvider(ServletContextEvent sce) {
+        return HttpServletStreamableServerTransportProvider.builder()
+                                                    .objectMapper(new ObjectMapper())
+                                                    .mcpEndpoint("/mcp/message")
+                                                    .build();
+    }
+    
+    // SSE
+    private HttpServletSseServerTransportProvider getSseProvider(ServletContextEvent sce) {
+        return  new HttpServletSseServerTransportProvider(
+                new ObjectMapper(), "/messages"
+        );
     }
     
     private static SyncToolSpecification getSyncToolSpecification() {
