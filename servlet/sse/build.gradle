@@ -23,7 +23,7 @@ tasks.withType(JavaCompile) {
 
 dependencies {
     compileOnly('jakarta.servlet:jakarta.servlet-api:6.1.0')
-    implementation 'io.modelcontextprotocol.sdk:mcp:0.8.0'
+    implementation 'io.modelcontextprotocol.sdk:mcp:0.11.2'
     testImplementation("org.junit.jupiter:junit-jupiter-api:${junitVersion}")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:${junitVersion}")
 }
